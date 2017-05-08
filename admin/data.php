@@ -35,6 +35,7 @@
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	   
 	      <ul class="nav navbar-nav navbar-left">
+		<li><a class="alink" href="data.php?page=ojenis_kamar">Jenis Kamar</a></li>
 	      	<li><a class="alink" href="data.php?page=ofasilitas">Fasilitas</a></li>
 	      	<li><a class="alink" href="data.php?page=ospbu">SPBU</a></li>
 		  </ul>
