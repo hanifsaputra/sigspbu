@@ -1,0 +1,107 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+ margin:0;
+ padding:0;
+}
+table {
+ border-collapse:collapse;
+ border-spacing:0;
+}
+fieldset,img { 
+ border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+ font-style:normal;
+ font-weight:normal;
+}
+ol,ul {
+ list-style:none;
+}
+caption,th {
+ text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+ font-size:100%;
+ font-weight:normal;
+}
+q:before,q:after {
+ content:'';
+}
+abbr,acronym { border:0;
+}
+
+
+#isi{
+	max-width:1200px; margin:0px auto; border-radius:4px; margin-top:10px;
+}
+#map{
+	height: 500px;
+	max-width: 100%;
+}
+.footer{
+	max-width:1200px;  margin:0px auto; border-top:2px solid red; margin-top:10px;
+}
+#fo{
+	max-width:1200px; margin:0px auto; margin-top:10px; padding:10px; text-align:center; border-top: 1px solid #9A9A9A;
+}
+
+/* List View */
+.list-view {
+	padding: 20px;
+	padding-top: 5px;
+	cursor: pointer;
+
+}
+
+#list-view {
+	width:270px;
+	height:250px;
+	overflow:auto;
+}
+
+.media-heading{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+
+.titlepage {
+	font-size: 16px;
+	color: red !important;
+	margin-bottom: 10px;
+	width: 242px;
+}
+.list-addr{
+	
+	font-size: 12px;
+	font-weight: 300;
+	margin-bottom: 10px;
+}
+
+.jarak {
+	font-size: 12px;
+	font-weight: 300;
+}
+.addr{
+	font-size: 12px;
+	padding-top: 5px;
+	font-weight: normal;
+}
+#lat, #lng{
+	display: none;
+}
+.example{
+	color: #999;
+}
+#maker{
+	display: none;
+}
+
+#telpon{
+	font-size: 12px;
+	margin-top: 5px;
+	font-weight: normal;
+	color: #337ab7;
+}
+hr{
+	margin-top: 5px;
+}
