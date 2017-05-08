@@ -1,1 +1,1 @@
-"# sigspbu" 
+"SIG SPBU Yogyakarta" 
