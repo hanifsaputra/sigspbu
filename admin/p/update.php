@@ -19,6 +19,27 @@
 		}else{
 			echo "ERROR".mysql_error();
 		}
+	}else if (isset($_POST['fasilitas'])) {
+		$id_fasilitas	= $_POST['id_fasilitas'];
+		$nama_fasilitas	= $_POST['nama_fasilitas'];
+		$deskripsi				= $_POST['deskripsi'];
+		
+		
+		$queryfasilitas =mysql_query("UPDATE fasilitas 
+								SET nama_fasilitas	='$nama_fasilitas',
+									deskripsi		= '$deskripsi'
+								WHERE 
+									id_fasilitas		='$id_fasilitas'
+							   ");
+		if ($queryfasilitas) {
+
+				echo "<script LANGUAGE='JavaScript'>
+					    window.alert('Update fasilitas Berhasil')
+					    window.location.href='data.php?page=ofasilitas';
+				 </script>";
+		}else{
+			echo "ERROR".mysql_error();
+		}
 	}
 	//end
 	

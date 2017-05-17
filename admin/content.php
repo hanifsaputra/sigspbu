@@ -35,7 +35,26 @@ error_reporting(0);
 			case 'edit_kamar':
 					include "e/edit_jenis_kamar.php";
 					break;
-			
+			//fasilitas
+			case 'input_fasilitas':
+					include "i/input_fasilitas.php";
+					break;
+			case 'ofasilitas':
+					include "o/data_fasilitas.php";
+					break;
+			case 'edit_fasilitas':
+					include "e/edit_fasilitas.php";
+					break;
+			//fasilitas spbu
+			case 'ispbu':
+					include "i/input_spbu.php";
+					break;
+			case 'ospbu':
+					include "o/data_spbu.php";
+					break;
+			case 'espbu':
+					include "e/edit_spbu";
+					break;
 			default:
 				# code...
 				break;

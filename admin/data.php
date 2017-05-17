@@ -35,13 +35,12 @@
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	   
 	      <ul class="nav navbar-nav navbar-left">
-		<li><a class="alink" href="data.php?page=ojenis_kamar">Jenis Kamar</a></li>
+	      	<li><a class="alink" href="data.php?page=ojenis_kamar">Jenis Kamar</a></li>
 	      	<li><a class="alink" href="data.php?page=ofasilitas">Fasilitas</a></li>
 	      	<li><a class="alink" href="data.php?page=ospbu">SPBU</a></li>
 		  </ul>
 
 	      <ul class="nav navbar-nav navbar-right">
-	      		<li><a class="alink" href="data.php?page=ojenis_kamar">Fasilitas</a></li>
 	      	 	<li><a class="alink" href=""><i class=""></i> </a></li>
 	      	 	<li><a class="alink" href="logout.php"><i class="fa fa-power-off" aria-hidden="true"></i> Logout</a></li>
 	      </ul>

@@ -31,7 +31,72 @@
           
           $dbsel  = mysql_select_db($db, $kon) or die ("TIDAK TERPILIH".mysql_error());
 
-          if(isset($_POST['cari'])){
+          if(isset($_POST['cari_aku'])) {
+          
+            $jarak = $_POST['radius'];
+
+            
+            // $latme = -7.7887958;
+              $latme = $_COOKIE['lat'];
+                  
+              $longme = $_COOKIE['lng'];
+            // $longme = 110.4084557;
+            
+            
+
+            // proses pencarian wisata terdeket.
+            $sql = " 
+            SELECT id_spbu as id,nama_spbu as nama, alamat as lokasi,latitude as latitude1,longitude as  longitude1, gambar_spbu as gambar from spbu
+            /*SELECT id, nama, lokasi, latitude1, longitude1, gambar, jenis,
+                            (6371 * acos(cos(radians({$latme})) 
+                            * cos(radians(latitude1)) * cos(radians(longitude1) 
+                            - radians({$longme})) + sin(radians({$latme})) 
+                            * sin(radians(latitude1)))) 
+                            AS jarak
+                      FROM data
+                      HAVING jarak <= {$jarak}
+                      ORDER BY jarak
+
+
+
+            SELECT id_wisata, nm_wisata, lokasi_wisata, wisata_latitude, wisata_longitude, id_jenis_wisata, gambar,
+                            (6371 * acos(cos(radians({$latme})) 
+                            * cos(radians(wisata_latitude)) * cos(radians(wisata_longitude) 
+                            - radians({$longme})) + sin(radians({$latme})) 
+                            * sin(radians(wisata_latitude)))) 
+                            AS jarak 
+                            FROM wisata 
+                            
+
+                    WHERE 
+                          wisata.status='1'
+                                
+                            HAVING jarak <= {$jarak}
+                            ORDER BY jarak*/
+
+                    ";
+
+            $qu = mysql_query($sql);
+            $row = array();
+            while($row=mysql_fetch_object($qu)){
+                  if($row->jenis == 'wisata'){
+                    $icone ='assets/icon/1.png';
+                  }else if($row->jenis == 'restaurant'){
+                    $icone ='assets/icon/restoran.png';
+                  }else if($row->jenis == 'hotel'){
+                    $icone ='assets/icon/hotel.png';
+                  }
+             
+        ?>
+
+    
+        
+            
+        ['<div class="media"><div class="media-left"><a href="#"><img style="width:125px; height:90px;" class="media-object" src="assets/images/<?= $row->gambar;?>" alt="..."></a></div><div class="media-body"><h4 class="media-heading"><?= $row->nama ;?><br><p style="font-size:12px;color: #767676;"><div class="addr"><?= $row->lokasi;?></div><div id="telpon"><i class="fa fa-hand-o-right"></i> </div><div id="lat"><?= $row->latitude1;?></div><div id="lng"><?= $row->longitude1;?></div></p></h4><br><div id="more_detail"><h5><a href="javascript:click_route()">Rute</a> | <a target="_blank" href="detail_<?=$row->jenis;?>.php?id_<?=$row->jenis;?>=<?=$row->id;?>">Detail</a></h5></div></div></div>',<?php echo $row->latitude1;?>, <?php echo $row->longitude1;?>,'<?php echo $icone;?>'],
+                
+        <?php 
+              }
+            }elseif(isset($_POST['cari'])){
 							$keyword = $_POST['cari'];
 							$jenis = $_POST['jenis'];
 							$keyto   = strtolower($keyword);
@@ -39,12 +104,12 @@
 							$query1="";
 							
 							for($x=0;$x<$jml;$x++){
-								$query1.=$query1." Select spbu.id_spbu as id,nama_spbu as nama,alamat as lokasi,latitude as latitude1,longitude as longitude1, gambar_spbu as gambar from spbu, spbu_fasilitas where spbu.id_spbu=spbu_fasilitas.id_spbu and spbu_fasilitas.id_fasilitas=$jenis[$x]  union";
+								$query1.=$query1."Select spbu.id_spbu as id,nama_spbu as nama,alamat as lokasi,latitude as latitude1,longitude as longitude1, gambar_spbu as gambar from spbu, spbu_fasilitas where spbu.id_spbu=spbu_fasilitas.id_spbu and spbu_fasilitas.id_fasilitas=$jenis[$x]  union";
 							}
 							$query = substr($query1, 0, -5);
-              $qu = mysql_query($query);
-              while($row=mysql_fetch_object($qu)){
-              $icone ='assets/icon/1.png';                    
+                          $qu = mysql_query($query);
+                          while($row=mysql_fetch_object($qu)){
+                            $icone ='assets/icon/1.png';                    
                 ?>
                   ['<div class="media"><div class="media-left"><a href="#"><img style="width:125px; height:90px;" class="media-object" src="assets/images/<?= $row->gambar;?>" alt="..."></a></div><div class="media-body"><h4 class="media-heading"><?= $row->nama ;?><br><p style="font-size:12px;color: #767676;"><div class="addr"><?= $row->lokasi;?></div><div id="telpon"><i class="fa fa-hand-o-right"></i> </div><div id="lat"><?= $row->latitude1;?></div><div id="lng"><?= $row->longitude1;?></div></p></h4><br><div id="more_detail"><h5><a href="javascript:click_route()">Rute</a> | <a target="_blank" href="detail_spbu.php?id_spbu=<?=$row->id;?>">Detail</a></h5></div></div></div>',<?php echo $row->latitude1;?>, <?php echo $row->longitude1;?>,'<?php echo $icone;?>'],
                 <?php
@@ -116,7 +181,6 @@
     function click_route() {
       // menampilkan halaman form petunjuk arah.
       $('#route').show();
-      $('#list-view').hide();
 
       /*
       sembunyikan form pencarian, tombol cari wisata terdekat, daftar hasil pencarian dan teks atau.
@@ -341,9 +405,15 @@
 </head> 
 <body onload="initialize()"> 
   <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" style="color:#000;" href="<?php echo $link;?>"><i class="fa fa-plus-square" style="color:red;"></i>SISTEM INFORMASI GEOGRAFIS SPBU YOGYAKARTA</a>
-    </div>
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" style="color:#000;" href="<?php echo $link;?>"><i class="fa fa-plus-square" style="color:red;"></i>SISTEM INFORMASI GEOGRAFIS SPBU YOGYAKARTA</a>
+                </div>
   </div>
    <hr>
   <div class="container">
@@ -356,60 +426,81 @@
       <div class="col-lg-3">
         <div class="form-group" id="search">
               
-          <form name="form1" action="index.php" method="post" >
-          <br>
-          <h2>Cari Berdasarkan Fasilitas</h2>
-          <div id="search" class="input-group">
+              <form name="form1" action="index.php" method="post" >
+                
+                <br>
+				Inputkan Nama Wisata
+                <div id="search" class="input-group">
 
-            <input type="text" name="cari"  class="form-control" placeholder="Nama Wisata" style="display:none;">
-
-          </div>
-          <div name="checkbox">
-            <input type="checkbox" style="display: none;" name="jenis[]" value="212" checked>
-            <?php 
+                    <input type="text" name="cari"  class="form-control" placeholder="Nama Wisata" >
+                        
+                  </div>
+				  <div name="checkbox">
+          
+  				  <?php 
               $sql="Select id_fasilitas,nama_fasilitas from fasilitas";
               $query = mysql_query($sql);
+
               while ($rows=mysql_fetch_array($query)) { 
             ?>
-              <input type="checkbox" name="jenis[]" value="<?php echo $rows['id_fasilitas'];?>" ><?php echo " ".$rows['nama_fasilitas'];?><br/>    
+              <input type="checkbox" name="jenis[]" value="<?php echo $rows['id_fasilitas'];?>" ><?php echo $rows['nama_fasilitas'];?><br/>    
             <?php
-              }
+                }
             ?>
-          </div>
-          <span class="input-group-btn">
-          <button type="submit" name="search" class="btn btn-default">
-          Search..
-          </button>
-          </span>
-          </form>
-          
-        <div id="list-view">
+
+					</div>
+				  <span class="input-group-btn">
+                          <button type="submit" name="search" class="btn btn-default">
+                        Search..
+                          </button>
+      
+                        </span>
+              </form>
+            </div>
+            <div id="list-view"4>
               <?php
-            if(isset($_POST['cari'])){
-              $keyword = $_POST['cari'];
-              $jenis = $_POST['jenis'];
-              $keyto   = strtolower($keyword);
-              $jml  =count($jenis);
-              $query1="";
-              
-              for($x=0;$x<$jml;$x++){
-                $query1.=$query1." Select spbu.id_spbu as id,nama_spbu as nama,alamat as lokasi,latitude as latitude1,longitude as longitude1, gambar_spbu as gambar from spbu, spbu_fasilitas where spbu.id_spbu=spbu_fasilitas.id_spbu and spbu_fasilitas.id_fasilitas=$jenis[$x]  union";
-              }
-              $query = substr($query1, 0, -5);
-              $qu = mysql_query($query);
-              $i = 0; $no = 1;
-              $count = mysql_num_rows($qu);
-              if ($count>=1){
-                echo "Hasin Pencarian Terdapat ".$count." Buah Data<br>";
-              } else {
-                echo "Tidak Ada";
-              }
-              while($list=mysql_fetch_object($qu)){
+                if(isset($_POST['cari_aku'])) {
+            
+                  $jarak = $_POST['radius'];
+
+                  // $latme = -7.7887958;
+                  $latme = $_COOKIE['lat'];
+                  
+                  $longme = $_COOKIE['lng'];
+                  // $longme = 110.4084557;
+                
+                  //echo $HTTP_GET_VARS["cookie"];
+                  //print_r($_COOKIE);
+                  // proses pencarian wisata terdeket.
+                  $sql = "SELECT id, nama, lokasi, latitude1, longitude1, gambar, jenis,
+                            (6371 * acos(cos(radians({$latme})) 
+                            * cos(radians(latitude1)) * cos(radians(longitude1) 
+                            - radians({$longme})) + sin(radians({$latme})) 
+                            * sin(radians(latitude1)))) 
+                            AS jarak
+                      FROM data
+                      HAVING jarak <= {$jarak}
+                      ORDER BY jarak
+
+                    ";
+
+                  $qu = mysql_query($sql);
+                  //$list = array();
+
+                  $i = 0; $no = 1;
+                  while($list=mysql_fetch_object($qu)){
+
+                  // echo "<pre>";
+                  //   print_r($list);
+                  // echo "</pre>";
               ?>
-                <div class="list-view list-view-<?= $i++; ?>" latlng ="<?= $list->latitude1; ?>,<?= $list->longitude1; ?>">
+                    <div class="list-view list-view-<?= $i++; ?>" latlng ="<?= $list->latitude1; ?>,<?= $list->longitude1; ?>">
                   <h3 class="pull-lelft titlepage" ><?php echo $no++; ?>. <?= $list->nama; ?></h3></a>
                   <p class="list-addr"><?= $list->lokasi;  ?></p>
-                </div>
+                  <?php if(isset($list->jarak)) : ?>
+                    <p class="jarak">Radius <?php echo number_format($list->jarak, 2); ?> &nbsp; km</p>
+                  <?php endif; ?>
+                  </div>
 
               <?php 
                   }
@@ -417,7 +508,6 @@
               ?>
               
             </div>
-        </div>
             <div id="route">
                 
                 <label for="from_point">Lokasi Awal</label>
